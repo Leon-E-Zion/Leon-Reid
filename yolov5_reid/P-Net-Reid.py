@@ -138,7 +138,7 @@ def parse_args():
     parser.add_argument("--light_average", type=str, default="False")
     parser.add_argument("--light_improve", type=str, default="False")
     parser.add_argument("--time_", type=str, default="False")
-    parser.add_argument("--time_", type=str, default="False")
+    parser.add_argument("--pic_size_improve", type=str, default="False")
 
     return parser.parse_args()
 
