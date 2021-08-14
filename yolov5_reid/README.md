@@ -1,0 +1,2 @@
+可通过yolov5_reid\fast_reid\demo提取特征
+可通过yolov5_reid\person_search_reid进行 跨境追踪
