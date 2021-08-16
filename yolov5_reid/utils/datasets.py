@@ -13,7 +13,8 @@ import torch
 from PIL import Image, ExifTags
 from torch.utils.data import Dataset
 from tqdm import tqdm
-
+from pic_utils.light_improve import clahe_demo
+from pic_utils.kaiming_whether import kai_whether
 from utils.general import xyxy2xywh, xywh2xyxy
 
 help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
@@ -156,7 +157,7 @@ class LoadImages:  # for inference
 
 
 class LoadWebcam:  # for inference
-    def __init__(self, pipe=0, img_size=640):
+    def __init__(self,pic_ways, pipe=0, img_size=640):
         self.img_size = img_size
 
         if pipe == '0':
@@ -176,7 +177,7 @@ class LoadWebcam:  # for inference
         self.pipe = pipe
         self.cap = cv2.VideoCapture(pipe)  # video capture object
         self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 3)  # set buffer size
-
+        self.pic_ways = pic_ways
     def __iter__(self):
         self.count = -1
         return self
@@ -192,6 +193,11 @@ class LoadWebcam:  # for inference
         if self.pipe == 0:  # local camera
             ret_val, img0 = self.cap.read()
             img0 = cv2.flip(img0, 1)  # flip left-right
+            # if pic_ways[0]=='True':
+            # if self.pic_ways[0] == 'True':
+            #     img0 = kai_whether(img0)
+            # if self.pic_ways[1] == 'True':
+            #     img0 = clahe_demo(img0)
         else:  # IP camera
             n = 0
             while True:

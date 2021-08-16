@@ -70,8 +70,6 @@ def clahe_demo(image):
 
 
 
-if __name__ == '__main__':
-    m = deHaze(cv2.imread('light.jpg') / 255.0) * 255
-    cv2.imwrite('light_.png', m)
-    src = cv2.imread('light_.png')
-    clahe_demo((src))
+def kai_whether(src):
+    out = clahe_demo((src))
+    return out

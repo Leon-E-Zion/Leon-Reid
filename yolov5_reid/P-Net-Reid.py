@@ -24,10 +24,15 @@ import time
 
 
 class yolo_reid():
-    def __init__(self, cfg, args, video_path,cam_path,model,tar_id=None):
+    def __init__(self, cfg, args,whether_improve,light_improve, video_path,cam_path,model,tar_id=None):
         self.args = args
         self.video_path = video_path
         self.cam = cam_path
+
+        pic_ways = []
+        pic_ways.append(whether_improve)
+        pic_ways.append(light_improve)
+        self.pic_ways = pic_ways
         # self.camera_path = camer_path
         use_cuda = args.use_cuda and torch.cuda.is_available()
         if not use_cuda:
@@ -39,7 +44,7 @@ class yolo_reid():
         imgsz = check_img_size(args.img_size, s=32)  # self.model.stride.max())  # check img_size
         #
         if model == 'cam':
-            self.dataset = LoadWebcam(pipe =self.cam, img_size=imgsz)
+            self.dataset = LoadWebcam(self.pic_ways,pipe =self.cam, img_size=imgsz)
         else:
             self.dataset = LoadImages(self.video_path, img_size=imgsz)
         self.query_feat = np.load(args.query)
@@ -135,7 +140,7 @@ def parse_args():
 
     # pic_
     parser.add_argument("--whether_improve", type=str, default="True")
-    parser.add_argument("--light_average", type=str, default="False")
+    # parser.add_argument("--light_average", type=str, default="False")
     parser.add_argument("--light_improve", type=str, default="False")
     parser.add_argument("--time_", type=str, default="False")
     parser.add_argument("--pic_size_improve", type=str, default="False")
@@ -151,7 +156,7 @@ if __name__ == '__main__':
 
 
 
-    yolo_reid = yolo_reid(cfg, args, video_path=args.video_path,cam_path=args.cam,model='cam' )
+    yolo_reid = yolo_reid(cfg, args, whether_improve=args.whether_improve,light_improve=args.light_improve,video_path=args.video_path,cam_path=args.cam,model='cam' )
 
     start = time.clock()
     with torch.no_grad():
