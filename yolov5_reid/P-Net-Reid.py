@@ -45,7 +45,7 @@ class yolo_reid():
         #
         if model == 'cam':
             self.dataset = LoadWebcam(self.pic_ways,pipe =self.cam, img_size=imgsz)
-        else:
+        if model == 'video':
             self.dataset = LoadImages(self.video_path, img_size=imgsz)
         self.query_feat = np.load(args.query)
         self.names = np.load(args.names)
@@ -116,8 +116,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--video_path", default='./test.mp4', type=str)
     parser.add_argument("--camera", action="store", dest="cam", type=int, default="0")
-    parser.add_argument('--device', default='c'
-                                            'uda:0', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    parser.add_argument('--model', default='video', help='video or cam')
+    parser.add_argument('--device', default='cuda:0', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     # yolov5
     parser.add_argument('--weights', nargs='+', type=str, default='./weights/yolov5s.pt', help='model.pt path(s)')
     parser.add_argument('--img-size', type=int, default=1080, help='inference size (pixels)')
@@ -156,7 +156,7 @@ if __name__ == '__main__':
 
 
 
-    yolo_reid = yolo_reid(cfg, args, whether_improve=args.whether_improve,light_improve=args.light_improve,video_path=args.video_path,cam_path=args.cam,model='cam' )
+    yolo_reid = yolo_reid(cfg, args, whether_improve=args.whether_improve,light_improve=args.light_improve,video_path=args.video_path,cam_path=args.cam,model='video' )
 
     start = time.clock()
     with torch.no_grad():

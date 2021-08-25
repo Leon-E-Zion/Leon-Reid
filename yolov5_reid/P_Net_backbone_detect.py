@@ -134,6 +134,8 @@ class Person_detect():
 # 返回 框框数据 置信度
     
 if __name__ == '__main__':
-    person_detect = Person_detect(source=r'C:\Users\Leon\Desktop\ln\Yolov5-Deepsort-Fastreid-main\MOT16-03.mp4')
+    args = set_parser()
+    cfg = set_parser()
+    person_detect = Person_detect(args.config_deepsort)
     with torch.no_grad():
             person_detect.detect()
