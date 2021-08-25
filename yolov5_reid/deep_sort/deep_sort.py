@@ -126,7 +126,7 @@ class DeepSort(object):
         w = int(x2-x1)
         h = int(y2-y1)
         return t,l,w,h
-    
+    # 这里是实现了截取图片与特征提取
     def _get_features(self, bbox_xywh, ori_img):
         im_crops = []
         for box in bbox_xywh:
